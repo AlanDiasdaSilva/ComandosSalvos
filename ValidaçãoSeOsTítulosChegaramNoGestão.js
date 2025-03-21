@@ -1,4 +1,19 @@
- cy.get('.grid-voltar').click();
+let numeroBorderoLiberado = null
+        let quantidadeTitulosBorderoLiberado = null
+
+        cy.wait('@endPointInformacaoBorderoLiberado').then((interception) =>{
+            numeroBorderoLiberado = interception.response.body.codigo;
+            quantidadeTitulosBorderoLiberado = interception.response.body.operacoes[0].qtdeRecebiveis;           
+            console.log("NUMERO BORDERO LIBERADO", numeroBorderoLiberado);
+            console.log("QUANTIDADE DE TITULOS BORDERO",quantidadeTitulosBorderoLiberado);
+            cy.wrap(numeroBorderoLiberado).as('numeroBorderoLiberado');
+            cy.wrap(quantidadeTitulosBorderoLiberado).as('quantidadeTitulosBorderoLiberado');
+        })
+               
+        cy.wait(3000);
+        cy.get('[id="bt-estornar"]').should('be.visible');
+
+cy.get('.grid-voltar').click();
         cy.get('#menu-lateral-COBRANCA').click();
         cy.get('#item-menu-1 > span').click();
         cy.get('#btn-card-1 > .card-titulo-texto').click();
